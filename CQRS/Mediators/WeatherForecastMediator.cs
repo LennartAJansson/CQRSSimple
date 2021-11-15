@@ -29,7 +29,16 @@
         }
         public async Task<CreateWeatherForecastResponse> Handle(CreateWeatherForecastRequest request, CancellationToken cancellationToken)
         {
-            WeatherForecast f = new() { Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
+            int temp = request.Temperature;
+            WeatherForecast f;
+            if (!request.IsCelsius)
+            {
+                f = new() { Date = request.Date, TemperatureC = (int)((request.Temperature - 32) * 0.5556), Summary = request.Summary };
+            }
+            else
+            {
+                f = new() { Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
+            }
 
             //Store in database
             f = await service.Create(f);

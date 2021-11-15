@@ -7,7 +7,7 @@
 
     //These are the public contracts
     //They should be kept in a separate shared Assembly
-    public record CreateWeatherForecastRequest(DateTime Date, int Temperature, string Summary) : IRequest<CreateWeatherForecastResponse>;
+    public record CreateWeatherForecastRequest(DateTime Date, int Temperature, bool IsCelsius, string Summary) : IRequest<CreateWeatherForecastResponse>;
     public record CreateWeatherForecastResponse(int Id, DateTime Date, int Temperature, string Summary);
 
     public record ReadWeatherForecastRequest(int Id) : IRequest<ReadWeatherForecastResponse>;
