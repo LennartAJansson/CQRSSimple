@@ -1,7 +1,5 @@
 ﻿namespace CQRS.Mediators
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -13,16 +11,14 @@
 
     using Microsoft.Extensions.Logging;
 
-    public class WeatherForecastMediator : IRequestHandler<CreateWeatherForecastRequest, CreateWeatherForecastResponse>,
-        IRequestHandler<ReadWeatherForecastRequest, ReadWeatherForecastResponse>,
-        IRequestHandler<ReadWeatherForecastsRequest, ReadWeatherForecastsResponse>,
+    public class WeatherForecastCommandMediator : IRequestHandler<CreateWeatherForecastRequest, CreateWeatherForecastResponse>,
         IRequestHandler<UpdateWeatherForecastRequest, UpdateWeatherForecastResponse>,
         IRequestHandler<DeleteWeatherForecastRequest, DeleteWeatherForecastResponse>
     {
-        private readonly ILogger<WeatherForecastMediator> logger;
+        private readonly ILogger<WeatherForecastCommandMediator> logger;
         private readonly IWeatherForecastsService service;
 
-        public WeatherForecastMediator(ILogger<WeatherForecastMediator> logger, IWeatherForecastsService service)
+        public WeatherForecastCommandMediator(ILogger<WeatherForecastCommandMediator> logger, IWeatherForecastsService service)
         {
             this.logger = logger;
             this.service = service;
@@ -46,26 +42,6 @@
             f = await service.Create(f);
 
             return new CreateWeatherForecastResponse(f.Id, f.Date, f.TemperatureC, f.Summary);
-        }
-
-        public async Task<ReadWeatherForecastResponse> Handle(ReadWeatherForecastRequest request, CancellationToken cancellationToken)
-        {
-            logger.LogDebug("Handle for ReadWeatherForecastRequest");
-
-            //Get from database
-            WeatherForecast w = await service.Read(request.Id);
-
-            return new ReadWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.Summary);
-        }
-
-        public async Task<ReadWeatherForecastsResponse> Handle(ReadWeatherForecastsRequest request, CancellationToken cancellationToken)
-        {
-            logger.LogDebug("Handle for ReadWeatherForecastsRequest");
-
-            //Get from database
-            IEnumerable<WeatherForecast> forecasts = await service.Read();
-
-            return new ReadWeatherForecastsResponse(forecasts.Select(w => new ReadWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.Summary)));
         }
 
         public async Task<UpdateWeatherForecastResponse> Handle(UpdateWeatherForecastRequest request, CancellationToken cancellationToken)

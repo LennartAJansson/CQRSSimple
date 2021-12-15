@@ -12,22 +12,22 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class CommandController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> logger;
+        private readonly ILogger<CommandController> logger;
         private readonly IMediator mediator;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator)
+        public CommandController(ILogger<CommandController> logger, IMediator mediator)
         {
             this.logger = logger;
             this.mediator = mediator;
-            this.logger.LogDebug("Creating controller for request");
+            this.logger.LogDebug("Creating controller for commands");
         }
 
         [HttpPost]
-        public async Task<ActionResult<CreateWeatherForecastResponse>> Create(CreateWeatherForecastRequest request)
+        public async Task<ActionResult<CreateWeatherForecastResponse>> CreateWeatherForecast(CreateWeatherForecastRequest request)
         {
             try
             {
@@ -44,42 +44,8 @@
             }
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ReadWeatherForecastsResponse>> Read()
-        {
-            try
-            {
-                return Ok(await mediator.Send(new ReadWeatherForecastsRequest()));
-            }
-            catch (NoResultException)
-            {
-                return BadRequest("No records available");
-            }
-            catch (System.Exception)
-            {
-                return BadRequest("Something screwed up");
-            }
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ReadWeatherForecastResponse>> Read(int id)
-        {
-            try
-            {
-                return Ok(await mediator.Send(new ReadWeatherForecastRequest(id)));
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("Key not found");
-            }
-            catch (System.Exception)
-            {
-                return BadRequest("Something screwed up");
-            }
-        }
-
         [HttpPut]
-        public async Task<ActionResult<UpdateWeatherForecastResponse>> Update(UpdateWeatherForecastRequest request)
+        public async Task<ActionResult<UpdateWeatherForecastResponse>> UpdateWeatherForecast(UpdateWeatherForecastRequest request)
         {
             try
             {
@@ -96,7 +62,7 @@
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<DeleteWeatherForecastResponse>> Delete(int id)
+        public async Task<ActionResult<DeleteWeatherForecastResponse>> DeleteWeatherForecast(int id)
         {
             try
             {
