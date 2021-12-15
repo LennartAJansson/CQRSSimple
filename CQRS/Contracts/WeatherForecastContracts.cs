@@ -6,7 +6,7 @@
     using MediatR;
 
     //These are the public contracts
-    //They should be kept in a separate shared Assembly
+    //They could be kept in a separate shared Assembly
     public record CreateWeatherForecastRequest(DateTime Date, int Temperature, bool IsCelsius, string Summary) : IRequest<CreateWeatherForecastResponse>;
     public record CreateWeatherForecastResponse(int Id, DateTime Date, int Temperature, string Summary);
 
@@ -14,7 +14,7 @@
     public record ReadWeatherForecastResponse(int Id, DateTime Date, int Temperature, string Summary);
 
     public record ReadWeatherForecastsRequest() : IRequest<ReadWeatherForecastsResponse>;
-    public record ReadWeatherForecastsResponse(IEnumerable<ReadWeatherForecastResponse> response);
+    public record ReadWeatherForecastsResponse(IEnumerable<ReadWeatherForecastResponse> Responses);
 
     public record UpdateWeatherForecastRequest(int Id, DateTime Date, int Temperature, string Summary) : IRequest<UpdateWeatherForecastResponse>;
     public record UpdateWeatherForecastResponse(int Id, DateTime Date, int Temperature, string Summary);

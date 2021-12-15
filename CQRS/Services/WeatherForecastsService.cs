@@ -33,7 +33,12 @@
         public async Task<WeatherForecast> Create(WeatherForecast forecast)
         {
             await context.AddAsync(forecast);
-            await context.SaveChangesAsync();
+
+            if (await context.SaveChangesAsync() != 1)
+            {
+                logger.LogError("Couldn't save");
+                throw new NoResultException();
+            }
 
             return forecast;
         }
@@ -44,6 +49,7 @@
 
             if (forecast == null)
             {
+                logger.LogError("Couldn't find");
                 throw new KeyNotFoundException();
             }
 
@@ -52,8 +58,9 @@
 
         public async Task<IEnumerable<WeatherForecast>> Read()
         {
-            if (await context.WeatherForecasts.CountAsync() == 0)
+            if (!await context.WeatherForecasts.AnyAsync())
             {
+                logger.LogError("No records");
                 throw new NoResultException();
             }
 
@@ -62,6 +69,12 @@
 
         public async Task<WeatherForecast> Update(WeatherForecast forecast)
         {
+            if (forecast.Id == default)
+            {
+                logger.LogError("Not an existing record");
+                throw new DbUpdateException();
+            }
+
             context.Update(forecast);
 
             await context.SaveChangesAsync();
@@ -75,6 +88,7 @@
 
             if (forecast == null)
             {
+                logger.LogError("Couldn't find");
                 throw new KeyNotFoundException();
             }
 

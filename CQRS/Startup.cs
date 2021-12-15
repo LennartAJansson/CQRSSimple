@@ -26,15 +26,11 @@ namespace CQRS
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IWeatherForecastsService, WeatherForecastsService>();
-            services.AddDbContext<WeatherForecastsContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("WeatherForecastsDb"));
-            });
+            services.AddDbContext<WeatherForecastsContext>(options => options
+                .UseSqlServer(Configuration.GetConnectionString("WeatherForecastsDb")));
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CQRS", Version = "v1" });
-            });
+            services.AddSwaggerGen(options => options
+                .SwaggerDoc("v1", new OpenApiInfo { Title = "CQRS", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +40,7 @@ namespace CQRS
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CQRS v1"));
 
@@ -53,10 +50,8 @@ namespace CQRS
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints
+                .MapControllers());
         }
     }
 }

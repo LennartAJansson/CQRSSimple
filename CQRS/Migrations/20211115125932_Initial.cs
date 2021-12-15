@@ -1,13 +1,13 @@
 ﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CQRS.Migrations
 {
     public partial class Initial : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.CreateTable(
+        protected override void Up(MigrationBuilder migrationBuilder) => migrationBuilder
+            .CreateTable(
                 name: "WeatherForecasts",
                 columns: table => new
                 {
@@ -17,16 +17,9 @@ namespace CQRS.Migrations
                     TemperatureC = table.Column<int>(type: "int", nullable: false),
                     Summary = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WeatherForecasts", x => x.Id);
-                });
-        }
+                constraints: table => table.PrimaryKey("PK_WeatherForecasts", x => x.Id));
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "WeatherForecasts");
-        }
+        protected override void Down(MigrationBuilder migrationBuilder) => migrationBuilder
+            .DropTable(name: "WeatherForecasts");
     }
 }

@@ -29,6 +29,8 @@
         }
         public async Task<CreateWeatherForecastResponse> Handle(CreateWeatherForecastRequest request, CancellationToken cancellationToken)
         {
+            logger.LogDebug("Handle for CreateWeatherForecastRequest");
+
             int temp = request.Temperature;
             WeatherForecast f;
             if (!request.IsCelsius)
@@ -48,6 +50,8 @@
 
         public async Task<ReadWeatherForecastResponse> Handle(ReadWeatherForecastRequest request, CancellationToken cancellationToken)
         {
+            logger.LogDebug("Handle for ReadWeatherForecastRequest");
+
             //Get from database
             WeatherForecast w = await service.Read(request.Id);
 
@@ -56,6 +60,8 @@
 
         public async Task<ReadWeatherForecastsResponse> Handle(ReadWeatherForecastsRequest request, CancellationToken cancellationToken)
         {
+            logger.LogDebug("Handle for ReadWeatherForecastsRequest");
+
             //Get from database
             IEnumerable<WeatherForecast> forecasts = await service.Read();
 
@@ -64,6 +70,8 @@
 
         public async Task<UpdateWeatherForecastResponse> Handle(UpdateWeatherForecastRequest request, CancellationToken cancellationToken)
         {
+            logger.LogDebug("Handle for UpdateWeatherForecastRequest");
+
             WeatherForecast f = new() { Id = request.Id, Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
 
             //Update in database
@@ -74,6 +82,8 @@
 
         public async Task<DeleteWeatherForecastResponse> Handle(DeleteWeatherForecastRequest request, CancellationToken cancellationToken)
         {
+            logger.LogDebug("Handle for DeleteWeatherForecastRequest");
+
             //Delete in database
             WeatherForecast w = await service.Delete(request.Id);
 
