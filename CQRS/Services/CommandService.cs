@@ -22,11 +22,11 @@
             this.context = context;
         }
 
-        public async Task<WeatherForecast> Create(WeatherForecast forecast)
+        public async Task<WeatherForecast> CreateWeatherForecast(WeatherForecast forecast)
         {
-            if (forecast.Id == default)
+            if (forecast.WeatherForecastId == default)
             {
-                forecast.Id = Guid.NewGuid();
+                forecast.WeatherForecastId = Guid.NewGuid();
             }
 
             await context.AddAsync(forecast);
@@ -40,9 +40,9 @@
             return forecast;
         }
 
-        public async Task<WeatherForecast> Update(WeatherForecast forecast)
+        public async Task<WeatherForecast> UpdateWeatherForecast(WeatherForecast forecast)
         {
-            if (forecast.Id == default)
+            if (forecast.WeatherForecastId == default)
             {
                 logger.LogError("Not an existing record");
                 throw new DbUpdateException();
@@ -55,7 +55,7 @@
             return forecast;
         }
 
-        public async Task<WeatherForecast> Delete(Guid id)
+        public async Task<WeatherForecast> DeleteWeatherForecast(Guid id)
         {
             WeatherForecast forecast = await context.FindAsync<WeatherForecast>(id);
 
@@ -69,6 +69,24 @@
             await context.SaveChangesAsync();
 
             return forecast;
+        }
+
+        public async Task<Operation> CreateOperation(Operation operation)
+        {
+            if (operation.OperationId == default)
+            {
+                operation.OperationId = Guid.NewGuid();
+            }
+
+            await context.AddAsync(operation);
+
+            if (await context.SaveChangesAsync() != 1)
+            {
+                logger.LogError("Couldn't save");
+                throw new NoResultException();
+            }
+
+            return operation;
         }
     }
 }

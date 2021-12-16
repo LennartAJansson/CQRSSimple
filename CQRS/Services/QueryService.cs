@@ -39,7 +39,7 @@
                 IEnumerable<WeatherForecast> forecasts = await connection.QueryAsync<WeatherForecast>(
                     @$"SELECT *
                         FROM WeatherForecasts
-                        WHERE Id='{id}'"
+                        WHERE WeatherForecastId='{id}'"
                 );
                 WeatherForecast forecast = forecasts.FirstOrDefault();
 

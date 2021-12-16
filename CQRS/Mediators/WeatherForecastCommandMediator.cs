@@ -1,5 +1,6 @@
 ﻿namespace CQRS.Mediators
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -16,44 +17,72 @@
         IRequestHandler<DeleteWeatherForecastRequest, DeleteWeatherForecastResponse>
     {
         private readonly ILogger<WeatherForecastCommandMediator> logger;
-        private readonly ICommandService service;
+        private readonly ICommandService command;
+        private readonly IQueryService query;
 
-        public WeatherForecastCommandMediator(ILogger<WeatherForecastCommandMediator> logger, ICommandService service)
+        public WeatherForecastCommandMediator(ILogger<WeatherForecastCommandMediator> logger, ICommandService command, IQueryService query)
         {
             this.logger = logger;
-            this.service = service;
+            this.command = command;
+            this.query = query;
         }
         public async Task<CreateWeatherForecastResponse> Handle(CreateWeatherForecastRequest request, CancellationToken cancellationToken)
         {
             logger.LogDebug("Handle for CreateWeatherForecastRequest");
 
-            int temp = request.Temperature;
-            WeatherForecast f;
+            WeatherForecast forecast = null;
+
             if (!request.IsCelsius)
             {
-                f = new() { Id = default, Date = request.Date, TemperatureC = (int)((request.Temperature - 32) * 0.5556), Summary = request.Summary };
+                forecast = new() { WeatherForecastId = default, Date = request.Date, TemperatureC = (int)((request.Temperature - 32) * 0.5556), Summary = request.Summary };
             }
             else
             {
-                f = new() { Id = default, Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
+                forecast = new() { WeatherForecastId = default, Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
             }
 
             //Store in database
-            f = await service.Create(f);
+            forecast = await command.CreateWeatherForecast(forecast);
+            string after = System.Text.Json.JsonSerializer.Serialize(forecast);
 
-            return new CreateWeatherForecastResponse(f.Id, f.Date, f.TemperatureC, f.Summary);
+            Operation operation = new()
+            {
+                OperationId = default,
+                Action = "CreateWeatherForecast",
+                Date = DateTime.Now,
+                Data = System.Text.Json.JsonSerializer.Serialize(request),
+                WeatherForecastId = forecast.WeatherForecastId,
+                After = after
+            };
+
+            operation = await command.CreateOperation(operation);
+
+            return new CreateWeatherForecastResponse(forecast.WeatherForecastId, forecast.Date, forecast.TemperatureC, forecast.Summary);
         }
 
         public async Task<UpdateWeatherForecastResponse> Handle(UpdateWeatherForecastRequest request, CancellationToken cancellationToken)
         {
             logger.LogDebug("Handle for UpdateWeatherForecastRequest");
 
-            WeatherForecast f = new() { Id = request.Id, Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
+            WeatherForecast forecast = new() { WeatherForecastId = request.Id, Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
 
             //Update in database
-            f = await service.Update(f);
+            forecast = await command.UpdateWeatherForecast(forecast);
+            string after = System.Text.Json.JsonSerializer.Serialize(forecast);
 
-            return new UpdateWeatherForecastResponse(f.Id, f.Date, f.TemperatureC, f.Summary);
+            Operation operation = new()
+            {
+                OperationId = default,
+                Action = "UpdateWeatherForecast",
+                Date = DateTime.Now,
+                Data = System.Text.Json.JsonSerializer.Serialize(request),
+                WeatherForecastId = forecast.WeatherForecastId,
+                After = after
+            };
+
+            operation = await command.CreateOperation(operation);
+
+            return new UpdateWeatherForecastResponse(forecast.WeatherForecastId, forecast.Date, forecast.TemperatureC, forecast.Summary);
         }
 
         public async Task<DeleteWeatherForecastResponse> Handle(DeleteWeatherForecastRequest request, CancellationToken cancellationToken)
@@ -61,9 +90,22 @@
             logger.LogDebug("Handle for DeleteWeatherForecastRequest");
 
             //Delete in database
-            WeatherForecast w = await service.Delete(request.Id);
+            WeatherForecast forecast = await command.DeleteWeatherForecast(request.Id);
+            string after = "";
 
-            return new DeleteWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.Summary);
+            Operation operation = new()
+            {
+                OperationId = default,
+                Action = "UpdateWeatherForecast",
+                Date = DateTime.Now,
+                Data = System.Text.Json.JsonSerializer.Serialize(request),
+                WeatherForecastId = forecast.WeatherForecastId,
+                After = after
+            };
+
+            operation = await command.CreateOperation(operation);
+
+            return new DeleteWeatherForecastResponse(forecast.WeatherForecastId, forecast.Date, forecast.TemperatureC, forecast.Summary);
         }
     }
 }

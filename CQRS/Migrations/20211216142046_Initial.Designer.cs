@@ -4,6 +4,7 @@ using CQRS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CQRS.Migrations
 {
     [DbContext(typeof(WeatherForecastsContext))]
-    partial class WeatherForecastsContextModelSnapshot : ModelSnapshot
+    [Migration("20211216142046_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +34,9 @@ namespace CQRS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("After")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Before")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Data")

@@ -32,7 +32,7 @@
 
             WeatherForecast w = await service.Read(request.Id);
 
-            return new ReadWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.TemperatureF, w.Summary);
+            return new ReadWeatherForecastResponse(w.WeatherForecastId, w.Date, w.TemperatureC, w.TemperatureF, w.Summary);
         }
 
         public async Task<IEnumerable<ReadWeatherForecastResponse>> Handle(ReadWeatherForecastsRequest request, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@
 
             IEnumerable<WeatherForecast> forecasts = await service.Read();
 
-            return forecasts.Select(w => new ReadWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.TemperatureF, w.Summary));
+            return forecasts.Select(w => new ReadWeatherForecastResponse(w.WeatherForecastId, w.Date, w.TemperatureC, w.TemperatureF, w.Summary));
         }
     }
 }

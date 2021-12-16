@@ -7,8 +7,9 @@
 
     public interface ICommandService
     {
-        Task<WeatherForecast> Create(WeatherForecast forecast);
-        Task<WeatherForecast> Update(WeatherForecast forecast);
-        Task<WeatherForecast> Delete(Guid id);
+        Task<WeatherForecast> CreateWeatherForecast(WeatherForecast forecast);
+        Task<WeatherForecast> UpdateWeatherForecast(WeatherForecast forecast);
+        Task<WeatherForecast> DeleteWeatherForecast(Guid id);
+        Task<Operation> CreateOperation(Operation operation);
     }
 }

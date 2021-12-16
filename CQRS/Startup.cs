@@ -1,5 +1,6 @@
 namespace CQRS
 {
+    using System.Linq;
     using System.Reflection;
 
     using CQRS.Configuration;
@@ -39,6 +40,15 @@ namespace CQRS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (IServiceScope scope = app.ApplicationServices.CreateScope())
+            {
+                WeatherForecastsContext context = scope.ServiceProvider.GetRequiredService<WeatherForecastsContext>();
+                if (context.Database.GetPendingMigrations().Any())
+                {
+                    context.Database.Migrate();
+                }
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
