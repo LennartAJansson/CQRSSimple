@@ -1,5 +1,6 @@
 ﻿namespace CQRS.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -10,21 +11,12 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
-    public interface IWeatherForecastsService
+    public class CommandService : ICommandService
     {
-        Task<WeatherForecast> Create(WeatherForecast forecast);
-        Task<WeatherForecast> Read(int id);
-        Task<IEnumerable<WeatherForecast>> Read();
-        Task<WeatherForecast> Update(WeatherForecast forecast);
-        Task<WeatherForecast> Delete(int id);
-    }
-
-    public class WeatherForecastsService : IWeatherForecastsService
-    {
-        private readonly ILogger<WeatherForecastsService> logger;
+        private readonly ILogger<CommandService> logger;
         private readonly WeatherForecastsContext context;
 
-        public WeatherForecastsService(ILogger<WeatherForecastsService> logger, WeatherForecastsContext context)
+        public CommandService(ILogger<CommandService> logger, WeatherForecastsContext context)
         {
             this.logger = logger;
             this.context = context;
@@ -32,6 +24,11 @@
 
         public async Task<WeatherForecast> Create(WeatherForecast forecast)
         {
+            if (forecast.Id == default)
+            {
+                forecast.Id = Guid.NewGuid();
+            }
+
             await context.AddAsync(forecast);
 
             if (await context.SaveChangesAsync() != 1)
@@ -41,30 +38,6 @@
             }
 
             return forecast;
-        }
-
-        public async Task<WeatherForecast> Read(int id)
-        {
-            WeatherForecast forecast = await context.FindAsync<WeatherForecast>(id);
-
-            if (forecast == null)
-            {
-                logger.LogError("Couldn't find");
-                throw new KeyNotFoundException();
-            }
-
-            return forecast;
-        }
-
-        public async Task<IEnumerable<WeatherForecast>> Read()
-        {
-            if (!await context.WeatherForecasts.AnyAsync())
-            {
-                logger.LogError("No records");
-                throw new NoResultException();
-            }
-
-            return context.WeatherForecasts;
         }
 
         public async Task<WeatherForecast> Update(WeatherForecast forecast)
@@ -82,7 +55,7 @@
             return forecast;
         }
 
-        public async Task<WeatherForecast> Delete(int id)
+        public async Task<WeatherForecast> Delete(Guid id)
         {
             WeatherForecast forecast = await context.FindAsync<WeatherForecast>(id);
 

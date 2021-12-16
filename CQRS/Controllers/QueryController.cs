@@ -1,5 +1,6 @@
 ﻿namespace CQRS.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -26,7 +27,8 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<ReadWeatherForecastsResponse>> ReadWeatherForecasts()
+        //[ProducesResponseType(typeof(IEnumerable<OrderSummary>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<ReadWeatherForecastResponse>>> ReadWeatherForecasts()
         {
             try
             {
@@ -43,7 +45,7 @@
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ReadWeatherForecastResponse>> ReadWeatherForecast(int id)
+        public async Task<ActionResult<ReadWeatherForecastResponse>> ReadWeatherForecast(Guid id)
         {
             try
             {

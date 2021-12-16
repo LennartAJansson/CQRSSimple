@@ -16,9 +16,9 @@
         IRequestHandler<DeleteWeatherForecastRequest, DeleteWeatherForecastResponse>
     {
         private readonly ILogger<WeatherForecastCommandMediator> logger;
-        private readonly IWeatherForecastsService service;
+        private readonly ICommandService service;
 
-        public WeatherForecastCommandMediator(ILogger<WeatherForecastCommandMediator> logger, IWeatherForecastsService service)
+        public WeatherForecastCommandMediator(ILogger<WeatherForecastCommandMediator> logger, ICommandService service)
         {
             this.logger = logger;
             this.service = service;
@@ -31,11 +31,11 @@
             WeatherForecast f;
             if (!request.IsCelsius)
             {
-                f = new() { Date = request.Date, TemperatureC = (int)((request.Temperature - 32) * 0.5556), Summary = request.Summary };
+                f = new() { Id = default, Date = request.Date, TemperatureC = (int)((request.Temperature - 32) * 0.5556), Summary = request.Summary };
             }
             else
             {
-                f = new() { Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
+                f = new() { Id = default, Date = request.Date, TemperatureC = request.Temperature, Summary = request.Summary };
             }
 
             //Store in database

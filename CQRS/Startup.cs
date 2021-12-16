@@ -2,6 +2,7 @@ namespace CQRS
 {
     using System.Reflection;
 
+    using CQRS.Configuration;
     using CQRS.Data;
     using CQRS.Services;
 
@@ -24,8 +25,10 @@ namespace CQRS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddConfiguration(Configuration);
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddScoped<IWeatherForecastsService, WeatherForecastsService>();
+            services.AddScoped<ICommandService, CommandService>();
+            services.AddScoped<IQueryService, QueryService>();
             services.AddDbContext<WeatherForecastsContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("WeatherForecastsDb")));
             services.AddControllers();

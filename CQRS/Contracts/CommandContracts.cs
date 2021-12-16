@@ -8,11 +8,11 @@
 
     //ICommand
     public record CreateWeatherForecastRequest(DateTime Date, int Temperature, bool IsCelsius, string Summary) : ICommand<CreateWeatherForecastResponse>;
-    public record UpdateWeatherForecastRequest(int Id, DateTime Date, int Temperature, string Summary) : ICommand<UpdateWeatherForecastResponse>;
-    public record DeleteWeatherForecastRequest(int Id) : ICommand<DeleteWeatherForecastResponse>;
+    public record UpdateWeatherForecastRequest(Guid Id, DateTime Date, int Temperature, string Summary) : ICommand<UpdateWeatherForecastResponse>;
+    public record DeleteWeatherForecastRequest(Guid Id) : ICommand<DeleteWeatherForecastResponse>;
 
     //ICommand response
-    public record CreateWeatherForecastResponse(int Id, DateTime Date, int Temperature, string Summary);
-    public record UpdateWeatherForecastResponse(int Id, DateTime Date, int Temperature, string Summary);
-    public record DeleteWeatherForecastResponse(int Id, DateTime Date, int Temperature, string Summary);
+    public record CreateWeatherForecastResponse(Guid Id, DateTime Date, int Temperature, string Summary);
+    public record UpdateWeatherForecastResponse(Guid Id, DateTime Date, int Temperature, string Summary);
+    public record DeleteWeatherForecastResponse(Guid Id, DateTime Date, int Temperature, string Summary);
 }

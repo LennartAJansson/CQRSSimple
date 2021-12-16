@@ -14,13 +14,13 @@
     using Microsoft.Extensions.Logging;
 
     public class WeatherForecastQueryMediator : IRequestHandler<ReadWeatherForecastRequest, ReadWeatherForecastResponse>,
-        IRequestHandler<ReadWeatherForecastsRequest, ReadWeatherForecastsResponse>
+        IRequestHandler<ReadWeatherForecastsRequest, IEnumerable<ReadWeatherForecastResponse>>
 
     {
         private readonly ILogger<WeatherForecastQueryMediator> logger;
-        private readonly IWeatherForecastsService service;
+        private readonly IQueryService service;
 
-        public WeatherForecastQueryMediator(ILogger<WeatherForecastQueryMediator> logger, IWeatherForecastsService service)
+        public WeatherForecastQueryMediator(ILogger<WeatherForecastQueryMediator> logger, IQueryService service)
         {
             this.logger = logger;
             this.service = service;
@@ -30,21 +30,18 @@
         {
             logger.LogDebug("Handle for ReadWeatherForecastRequest");
 
-            //Get from database
             WeatherForecast w = await service.Read(request.Id);
 
-            return new ReadWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.Summary);
+            return new ReadWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.TemperatureF, w.Summary);
         }
 
-        public async Task<ReadWeatherForecastsResponse> Handle(ReadWeatherForecastsRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ReadWeatherForecastResponse>> Handle(ReadWeatherForecastsRequest request, CancellationToken cancellationToken)
         {
             logger.LogDebug("Handle for ReadWeatherForecastsRequest");
 
-            //Get from database
             IEnumerable<WeatherForecast> forecasts = await service.Read();
 
-            return new ReadWeatherForecastsResponse(forecasts.Select(w => new ReadWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.Summary)));
+            return forecasts.Select(w => new ReadWeatherForecastResponse(w.Id, w.Date, w.TemperatureC, w.TemperatureF, w.Summary));
         }
-
     }
 }

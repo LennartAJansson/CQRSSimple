@@ -1,5 +1,6 @@
 ﻿namespace CQRS.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -62,7 +63,7 @@
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<DeleteWeatherForecastResponse>> DeleteWeatherForecast(int id)
+        public async Task<ActionResult<DeleteWeatherForecastResponse>> DeleteWeatherForecast(Guid id)
         {
             try
             {
