@@ -21,20 +21,21 @@
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            logger.LogDebug("StartAsync");
+            logger.LogInformation("StartAsync");
             return base.StartAsync(cancellationToken);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            logger.LogDebug("ExecuteAsync");
-            throw new System.NotImplementedException();
+            logger.LogInformation("ExecuteAsync");
+            //throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            logger.LogDebug("StopAsync");
-            return base.StartAsync(cancellationToken);
+            logger.LogInformation("StopAsync");
+            return base.StopAsync(cancellationToken);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Text;
+
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using IHost host = Host.CreateDefaultBuilder(args)
@@ -10,6 +12,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
 
 await host.StartAsync();
 
+await host.Services.GetRequiredService<IWorker>().Seed();
 
 await host.StopAsync();
 
@@ -28,8 +31,8 @@ internal class Worker : IWorker
 
     public async Task Seed()
     {
-        string str = "";
-        HttpResponseMessage? response = await client.PostAsync("api/command/createweatherforecast", new StringContent(str));
+        string str = "{\"Date\":\"2021-12-16T14:12:00\",\"Temperature\":2,\"IsCelsius\":true,\"Summary\":\"Clear\"}";
+        HttpResponseMessage? response = await client.PostAsync("/api/command/createweatherforecast", new StringContent(str, Encoding.UTF8, "application/json"));
         response.EnsureSuccessStatusCode();
     }
 }

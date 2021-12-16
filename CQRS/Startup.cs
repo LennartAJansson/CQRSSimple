@@ -5,6 +5,7 @@ namespace CQRS
 
     using CQRS.Configuration;
     using CQRS.Data;
+    using CQRS.Events;
     using CQRS.Services;
 
     using MediatR;
@@ -26,12 +27,13 @@ namespace CQRS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHostedService<OperationsHandler>();
             services.AddConfiguration(Configuration);
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddScoped<ICommandService, CommandService>();
-            services.AddScoped<IQueryService, QueryService>();
+            services.AddTransient<ICommandService, CommandService>();
+            services.AddTransient<IQueryService, QueryService>();
             services.AddDbContext<WeatherForecastsContext>(options => options
-                .UseSqlServer(Configuration.GetConnectionString("WeatherForecastsDb")));
+                .UseSqlServer(Configuration.GetConnectionString("WeatherForecastsDb")), ServiceLifetime.Transient, ServiceLifetime.Transient);
             services.AddControllers();
             services.AddSwaggerGen(options => options
                 .SwaggerDoc("v1", new OpenApiInfo { Title = "CQRS", Version = "v1" }));
