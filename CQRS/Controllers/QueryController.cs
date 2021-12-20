@@ -27,7 +27,6 @@
         }
 
         [HttpGet]
-        //[ProducesResponseType(typeof(IEnumerable<OrderSummary>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<ReadWeatherForecastResponse>>> ReadWeatherForecasts()
         {
             try
@@ -44,12 +43,12 @@
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ReadWeatherForecastResponse>> ReadWeatherForecast(Guid id)
+        [HttpGet("{weatherForecastId}")]
+        public async Task<ActionResult<ReadWeatherForecastResponse>> ReadWeatherForecast(Guid weatherForecastId)
         {
             try
             {
-                return Ok(await mediator.Send(new ReadWeatherForecastRequest(id)));
+                return Ok(await mediator.Send(new ReadWeatherForecastRequest(weatherForecastId)));
             }
             catch (KeyNotFoundException)
             {

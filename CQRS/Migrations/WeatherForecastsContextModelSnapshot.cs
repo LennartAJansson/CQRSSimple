@@ -34,18 +34,22 @@ namespace CQRS.Migrations
                     b.Property<string>("After")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Data")
+                    b.Property<string>("Before")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Ready")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RequestData")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("WeatherForecastId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("OperationId");
-
-                    b.HasIndex("WeatherForecastId");
 
                     b.ToTable("Operations");
                 });
@@ -68,22 +72,6 @@ namespace CQRS.Migrations
                     b.HasKey("WeatherForecastId");
 
                     b.ToTable("WeatherForecasts");
-                });
-
-            modelBuilder.Entity("CQRS.Model.Operation", b =>
-                {
-                    b.HasOne("CQRS.Model.WeatherForecast", "WeatherForecast")
-                        .WithMany("Operations")
-                        .HasForeignKey("WeatherForecastId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WeatherForecast");
-                });
-
-            modelBuilder.Entity("CQRS.Model.WeatherForecast", b =>
-                {
-                    b.Navigation("Operations");
                 });
 #pragma warning restore 612, 618
         }

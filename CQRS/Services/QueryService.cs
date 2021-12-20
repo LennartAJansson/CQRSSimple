@@ -29,7 +29,7 @@
             connectionStrings = options.Value;
         }
 
-        public async Task<WeatherForecast> Read(Guid id)
+        public async Task<WeatherForecast> Read(Guid weatherForecastId)
         {
 
             using (SqlConnection connection = new SqlConnection(connectionStrings.WeatherForecastsDb))
@@ -39,7 +39,7 @@
                 IEnumerable<WeatherForecast> forecasts = await connection.QueryAsync<WeatherForecast>(
                     @$"SELECT *
                         FROM WeatherForecasts
-                        WHERE WeatherForecastId='{id}'"
+                        WHERE WeatherForecastId='{weatherForecastId}'"
                 );
                 WeatherForecast forecast = forecasts.FirstOrDefault();
 
@@ -61,7 +61,8 @@
 
                 IEnumerable<WeatherForecast> forecasts = await connection.QueryAsync<WeatherForecast>(
                     @"SELECT *
-                        FROM WeatherForecasts"
+                        FROM WeatherForecasts
+                        ORDER BY Date"
                 );
 
                 if (!forecasts.Any())

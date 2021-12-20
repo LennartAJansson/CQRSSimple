@@ -13,14 +13,14 @@
 
     using Microsoft.Extensions.Logging;
 
-    public class WeatherForecastQueryMediator : IRequestHandler<ReadWeatherForecastRequest, ReadWeatherForecastResponse>,
+    public class QueryMediator : IRequestHandler<ReadWeatherForecastRequest, ReadWeatherForecastResponse>,
         IRequestHandler<ReadWeatherForecastsRequest, IEnumerable<ReadWeatherForecastResponse>>
 
     {
-        private readonly ILogger<WeatherForecastQueryMediator> logger;
+        private readonly ILogger<QueryMediator> logger;
         private readonly IQueryService service;
 
-        public WeatherForecastQueryMediator(ILogger<WeatherForecastQueryMediator> logger, IQueryService service)
+        public QueryMediator(ILogger<QueryMediator> logger, IQueryService service)
         {
             this.logger = logger;
             this.service = service;
@@ -30,7 +30,7 @@
         {
             logger.LogDebug("Handle for ReadWeatherForecastRequest");
 
-            WeatherForecast w = await service.Read(request.Id);
+            WeatherForecast w = await service.Read(request.WeatherForecastId);
 
             return new ReadWeatherForecastResponse(w.WeatherForecastId, w.Date, w.TemperatureC, w.TemperatureF, w.Summary);
         }

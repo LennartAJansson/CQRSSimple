@@ -24,11 +24,6 @@
 
         public async Task<WeatherForecast> CreateWeatherForecast(WeatherForecast forecast)
         {
-            if (forecast.WeatherForecastId == default)
-            {
-                forecast.WeatherForecastId = Guid.NewGuid();
-            }
-
             await context.AddAsync(forecast);
 
             if (await context.SaveChangesAsync() != 1)
@@ -48,7 +43,9 @@
                 throw new DbUpdateException();
             }
 
-            context.Update(forecast);
+            WeatherForecast entry = await context.WeatherForecasts.FindAsync(forecast.WeatherForecastId);
+
+            context.Entry(entry).CurrentValues.SetValues(forecast);
 
             await context.SaveChangesAsync();
 
@@ -73,11 +70,6 @@
 
         public async Task<Operation> CreateOperation(Operation operation)
         {
-            if (operation.OperationId == default)
-            {
-                operation.OperationId = Guid.NewGuid();
-            }
-
             await context.AddAsync(operation);
 
             if (await context.SaveChangesAsync() != 1)

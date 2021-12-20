@@ -8,9 +8,9 @@
     public interface IQuery<T> : IRequest<T> { }
 
     //IQuery
-    public record ReadWeatherForecastRequest(Guid Id) : IQuery<ReadWeatherForecastResponse>;
+    public record ReadWeatherForecastRequest(Guid WeatherForecastId) : IQuery<ReadWeatherForecastResponse>;
     public record ReadWeatherForecastsRequest() : IQuery<IEnumerable<ReadWeatherForecastResponse>>;
 
     //IQuery responses
-    public record ReadWeatherForecastResponse(Guid Id, DateTime Date, int Celsius, int Fahrenheit, string Summary);
+    public record ReadWeatherForecastResponse(Guid WeatherForecastId, DateTime Date, int TemperatureC, int TemperatureF, string Summary);
 }

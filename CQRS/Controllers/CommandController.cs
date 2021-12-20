@@ -39,7 +39,7 @@
             {
                 return BadRequest("Record NOT saved");
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return BadRequest("Something screwed up");
             }
@@ -56,24 +56,24 @@
             {
                 return BadRequest("Trying to update non-existing record");
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return BadRequest("Something screwed up");
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<DeleteWeatherForecastResponse>> DeleteWeatherForecast(Guid id)
+        [HttpDelete("{weatherForecastId}")]
+        public async Task<ActionResult<DeleteWeatherForecastResponse>> DeleteWeatherForecast(Guid weatherForecastId)
         {
             try
             {
-                return Ok(await mediator.Send(new DeleteWeatherForecastRequest(id)));
+                return Ok(await mediator.Send(new DeleteWeatherForecastRequest(weatherForecastId)));
             }
             catch (KeyNotFoundException)
             {
                 return BadRequest("Key not found");
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return BadRequest("Something screwed up");
             }

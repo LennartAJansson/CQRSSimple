@@ -1,7 +1,6 @@
 namespace CQRS.Model
 {
     using System;
-    using System.Collections.Generic;
 
     public class WeatherForecast
     {
@@ -15,6 +14,5 @@ namespace CQRS.Model
 
         public string Summary { get; set; }
 
-        public virtual ICollection<Operation> Operations { get; set; } = new HashSet<Operation>();
     }
 }

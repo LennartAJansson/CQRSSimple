@@ -5,7 +5,8 @@ namespace CQRS
 
     using CQRS.Configuration;
     using CQRS.Data;
-    using CQRS.Events;
+    using CQRS.Operations;
+    using CQRS.Queue;
     using CQRS.Services;
 
     using MediatR;
@@ -30,6 +31,7 @@ namespace CQRS
             services.AddHostedService<OperationsHandler>();
             services.AddConfiguration(Configuration);
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddSingleton<IOperationsMessenger, OperationsMessenger>();
             services.AddTransient<ICommandService, CommandService>();
             services.AddTransient<IQueryService, QueryService>();
             services.AddDbContext<WeatherForecastsContext>(options => options

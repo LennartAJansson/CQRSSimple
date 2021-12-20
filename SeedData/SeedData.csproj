@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Microsoft.Extensions.Hosting"/>
+    <Using Include="Microsoft.Extensions.DependencyInjection"/>
+  </ItemGroup>
+
 </Project>
