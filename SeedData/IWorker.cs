@@ -1,4 +1,5 @@
-﻿internal interface IWorker
+﻿namespace SeedData;
+internal interface IWorker
 {
     Task Seed();
 }

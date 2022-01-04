@@ -1,1 +1,2 @@
-﻿public record CreateWeatherForecastResponse(Guid WeatherForecastId);
+﻿namespace SeedData;
+public record CreateWeatherForecastResponse(Guid WeatherForecastId);
