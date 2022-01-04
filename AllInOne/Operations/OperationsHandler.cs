@@ -30,7 +30,7 @@
             this.query = query;
         }
 
-        private async Task OperationReceived(object sender, Operation operation)
+        private async Task OperationReceived(Operation operation)
         {
             if (operation != null && operation.Action != null && operation.RequestData != null)
             {

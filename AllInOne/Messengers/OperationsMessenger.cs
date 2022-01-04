@@ -9,6 +9,12 @@
     {
         public event NewOperationReceivedDelegate? NewOperationReceived;
 
-        public Task? QueueOperation(object sender, Operation operation) => NewOperationReceived?.Invoke(sender, operation);
+        public async Task QueueOperation(Operation operation)
+        {
+            if (NewOperationReceived != null)
+            {
+                await NewOperationReceived.Invoke(operation);
+            }
+        }
     }
 }

@@ -33,7 +33,7 @@
         {
             if (operationsMessenger != null && request != null)
             {
-                Operation operation = new()
+                Operation? operation = new()
                 {
                     OperationId = Guid.NewGuid(),
                     Action = request.GetType().Name,
@@ -46,7 +46,7 @@
 
                 if (operation != null)
                 {
-                    await operationsMessenger.QueueOperation(this, operation);
+                    await operationsMessenger.QueueOperation(operation);
 
                     return new WeatherForecastIdResponse(operation.WeatherForecastId);
                 }
@@ -61,7 +61,7 @@
         {
             if (operationsMessenger != null && request != null)
             {
-                Operation operation = new()
+                Operation? operation = new()
                 {
                     OperationId = default,
                     Action = request.GetType().Name,
@@ -72,9 +72,12 @@
                     After = ""
                 };
 
-                await operationsMessenger.QueueOperation(this, operation);
+                if (this != null && operation != null)
+                {
+                    await operationsMessenger.QueueOperation(operation);
 
-                return new WeatherForecastIdResponse(request.WeatherForecastId);
+                    return new WeatherForecastIdResponse(request.WeatherForecastId);
+                }
             }
 
             logger.LogError("Not able to handle command");
@@ -84,24 +87,25 @@
         [Time]
         public async Task<WeatherForecastIdResponse> Handle(DeleteWeatherForecastRequest request, CancellationToken cancellationToken)
         {
-            logger.LogDebug("Handle for DeleteWeatherForecastRequest");
-
-            Operation operation = new()
+            if (operationsMessenger != null && request != null)
             {
-                OperationId = default,
-                Action = request.GetType().Name,
-                Date = DateTime.Now,
-                RequestData = JsonSerializer.Serialize(request),
-                WeatherForecastId = request.WeatherForecastId,
-                Before = "",
-                After = ""
-            };
+                Operation? operation = new()
+                {
+                    OperationId = default,
+                    Action = request.GetType().Name,
+                    Date = DateTime.Now,
+                    RequestData = JsonSerializer.Serialize(request),
+                    WeatherForecastId = request.WeatherForecastId,
+                    Before = "",
+                    After = ""
+                };
 
-            if (operation != null)
-            {
-                await operationsMessenger.QueueOperation(this, operation);
+                if (operation != null && operation.Action != null && operation.After != null && operation.Before != null)
+                {
+                    await operationsMessenger.QueueOperation(operation);
 
-                return new WeatherForecastIdResponse(request.WeatherForecastId);
+                    return new WeatherForecastIdResponse(request.WeatherForecastId);
+                }
             }
 
             logger.LogError("Not able to handle command");

@@ -4,11 +4,11 @@
 
     using AllInOne.Model;
 
-    public delegate Task NewOperationReceivedDelegate(object sender, Operation operation);
+    public delegate Task NewOperationReceivedDelegate(Operation operation);
 
     public interface IOperationsMessenger
     {
         event NewOperationReceivedDelegate? NewOperationReceived;
-        public Task? QueueOperation(object sender, Operation operation);
+        public Task QueueOperation(Operation operation);
     }
 }
