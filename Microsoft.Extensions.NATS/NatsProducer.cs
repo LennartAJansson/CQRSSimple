@@ -1,4 +1,4 @@
-﻿namespace Send
+﻿namespace Microsoft.Extensions.NATS
 {
     public class NatsProducer
     {
@@ -7,5 +7,4 @@
         public string? Stream { get; set; }
         public string? Subject { get; set; }
     }
-
 }

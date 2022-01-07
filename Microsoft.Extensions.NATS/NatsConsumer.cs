@@ -1,4 +1,4 @@
-﻿namespace Receive
+﻿namespace Microsoft.Extensions.NATS
 {
     public class NatsConsumer
     {
@@ -9,5 +9,4 @@
         public string? Consumer { get; set; }
         public string? DeliverySubject { get; set; }
     }
-
 }

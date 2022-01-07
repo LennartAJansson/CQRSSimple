@@ -1,4 +1,4 @@
 ﻿namespace Contracts.Querys
 {
-    public record ReadWeatherForecastsQuery() : IQuery<IEnumerable<WeatherForecastResponse>>;
+    public record ReadWeatherForecastsQuery() : IQuery<IEnumerable<WeatherForecastQueryResponse>>;
 }

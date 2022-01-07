@@ -1,4 +1,4 @@
 ﻿namespace Contracts.Commands
 {
-    public record DeleteWeatherForecastCommand(DateTimeOffset Date, decimal Temperature, string Summary) : ICommand<WeatherForecastResponse>;
+    public record DeleteWeatherForecastCommand(Guid WeatherForecastId, DateTimeOffset Date, decimal Temperature, string Summary, bool IsCelsius) : ICommand<WeatherForecastCommandResponse>;
 }

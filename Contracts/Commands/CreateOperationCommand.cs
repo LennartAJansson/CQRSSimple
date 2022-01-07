@@ -1,5 +1,5 @@
 ﻿namespace Contracts.Commands
 {
-    //TODO Complete the properties for CreateOperationCommand
-    public record CreateOperationCommand(Guid OperationId, bool Ready, DateTimeOffset Date, string Action, Guid WeatherForecastId, string RequestData, string Before, string After) : ICommand<OperationResponse>;
+    //Only used for pushing requests on the async event stream. NATS contract
+    public record CreateOperationCommand(Guid OperationId, DateTimeOffset Date, string Action, Guid WeatherForecastId, string RequestData);
 }

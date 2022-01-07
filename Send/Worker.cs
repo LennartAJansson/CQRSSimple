@@ -2,6 +2,7 @@ namespace Send
 {
     using System.Text;
 
+    using Microsoft.Extensions.NATS;
     using Microsoft.Extensions.Options;
 
     using NATS.Client;

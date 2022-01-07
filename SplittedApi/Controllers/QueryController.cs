@@ -29,7 +29,7 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WeatherForecastResponse>>> ReadWeatherForecasts()
+        public async Task<ActionResult<IEnumerable<WeatherForecastQueryResponse>>> ReadWeatherForecasts()
         {
             try
             {
@@ -46,7 +46,7 @@
         }
 
         [HttpGet("{weatherForecastId}")]
-        public async Task<ActionResult<WeatherForecastResponse>> ReadWeatherForecastById(Guid weatherForecastId)
+        public async Task<ActionResult<WeatherForecastQueryResponse>> ReadWeatherForecastById(Guid weatherForecastId)
         {
             try
             {
@@ -63,7 +63,7 @@
         }
 
         [HttpGet("{date}")]
-        public async Task<ActionResult<WeatherForecastResponse>> ReadWeatherForecastByDate(DateTimeOffset date)
+        public async Task<ActionResult<WeatherForecastQueryResponse>> ReadWeatherForecastByDate(DateTimeOffset date)
         {
             try
             {
@@ -80,7 +80,7 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OperationResponse>>> ReadOperations()
+        public async Task<ActionResult<IEnumerable<OperationQueryResponse>>> ReadOperations()
         {
             try
             {

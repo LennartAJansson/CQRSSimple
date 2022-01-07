@@ -8,8 +8,13 @@
 
     using MediatR;
 
-    public class ReadWeatherForecastByIdHandler : IRequestHandler<ReadWeatherForecastByIdQuery, WeatherForecastResponse>
+    using Microsoft.Extensions.Logging;
+
+    public class ReadWeatherForecastByIdHandler : IRequestHandler<ReadWeatherForecastByIdQuery, WeatherForecastQueryResponse>
     {
-        public Task<WeatherForecastResponse> Handle(ReadWeatherForecastByIdQuery request, CancellationToken cancellationToken) => throw new NotImplementedException();
+        private readonly ILogger<ReadWeatherForecastByIdHandler> logger;
+
+        public ReadWeatherForecastByIdHandler(ILogger<ReadWeatherForecastByIdHandler> logger) => this.logger = logger;
+        public Task<WeatherForecastQueryResponse> Handle(ReadWeatherForecastByIdQuery request, CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }

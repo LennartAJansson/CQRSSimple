@@ -1,4 +1,4 @@
 ﻿namespace Contracts.Querys
 {
-    public record ReadWeatherForecastByDateQuery(DateTimeOffset Date) : IQuery<WeatherForecastResponse>;
+    public record ReadWeatherForecastByDateQuery(DateTimeOffset Date) : IQuery<WeatherForecastQueryResponse>;
 }

@@ -1,4 +1,4 @@
 ﻿namespace Contracts.Querys
 {
-    public record ReadOperationsQuery() : IQuery<IEnumerable<OperationResponse>>;
+    public record ReadOperationsQuery() : IQuery<IEnumerable<OperationQueryResponse>>;
 }

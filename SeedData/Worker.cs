@@ -14,7 +14,7 @@ internal class Worker : IWorker
         List<Guid> ids = new List<Guid>();
 
         DateTime StartDate = new DateTime(2021, 1, 1, 0, 0, 0);
-        DateTime StopDate = new DateTime(2021, 12, 31, 23, 1, 0);
+        DateTime StopDate = new DateTime(2021, 1, 31, 23, 1, 0);
         JsonSerializerOptions options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true

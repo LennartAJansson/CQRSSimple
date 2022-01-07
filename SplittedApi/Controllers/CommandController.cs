@@ -28,7 +28,7 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult<WeatherForecastResponse>> CreateWeatherForecast(CreateWeatherForecastCommand request)
+        public async Task<ActionResult<WeatherForecastCommandResponse>> CreateWeatherForecast(CreateWeatherForecastCommand request)
         {
             try
             {
@@ -46,7 +46,7 @@
         }
 
         [HttpPut]
-        public async Task<ActionResult<WeatherForecastResponse>> UpdateWeatherForecast(UpdateWeatherForecastCommand request)
+        public async Task<ActionResult<WeatherForecastCommandResponse>> UpdateWeatherForecast(UpdateWeatherForecastCommand request)
         {
             try
             {
@@ -63,7 +63,7 @@
         }
 
         [HttpDelete]
-        public async Task<ActionResult<WeatherForecastResponse>> DeleteWeatherForecast(DeleteWeatherForecastCommand request)
+        public async Task<ActionResult<WeatherForecastCommandResponse>> DeleteWeatherForecast(DeleteWeatherForecastCommand request)
         {
             try
             {
