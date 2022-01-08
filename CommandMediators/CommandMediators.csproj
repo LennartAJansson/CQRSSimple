@@ -8,16 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
-    <PackageReference Include="NATS.JetStreamExampleUtils" Version="0.14.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\Mappers\Mappers.csproj" />
     <ProjectReference Include="..\Microsoft.Extensions.NATS\Microsoft.Extensions.NATS.csproj" />
-    <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 </Project>

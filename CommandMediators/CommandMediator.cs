@@ -2,6 +2,8 @@
 {
     using System.Reflection;
 
+    using Mappers;
+
     using MediatR;
 
     using Microsoft.Extensions.Configuration;
@@ -21,7 +23,7 @@
                 options.Verbose = true;
             });
             services.AddMediatR(Assembly.GetAssembly(typeof(CommandMediator)));
-
+            services.AddMappers();
             return services;
         }
     }

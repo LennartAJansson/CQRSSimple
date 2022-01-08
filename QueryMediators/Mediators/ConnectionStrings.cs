@@ -1,4 +1,4 @@
-﻿namespace AllInOne.Configuration
+﻿namespace QueryMediators
 {
     public class ConnectionStrings
     {

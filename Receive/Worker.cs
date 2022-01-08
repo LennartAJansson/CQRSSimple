@@ -71,6 +71,7 @@ namespace Receive
                 //subscription.Unsubscribe();
                 //subscription.Dispose();
             }
+
             return base.StopAsync(cancellationToken);
         }
     }

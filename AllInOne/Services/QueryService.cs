@@ -19,7 +19,7 @@
     {
         //TODO https://github.com/DapperLib/Dapper
         //TODO https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/cqrs-microservice-reads
-        // Tim Corey, negative thoughts on EF Core: https://www.youtube.com/watch?v=qkJ9keBmQWo
+        //Tim Corey, negative thoughts on EF Core: https://www.youtube.com/watch?v=qkJ9keBmQWo
 
         private readonly ILogger<QueryService> logger;
         private readonly ConnectionStrings connectionStrings;
@@ -32,7 +32,6 @@
 
         public async Task<WeatherForecast> ReadWeatherForecast(Guid weatherForecastId)
         {
-
             using (SqlConnection connection = new SqlConnection(connectionStrings.WeatherForecastsDb))
             {
                 connection.Open();

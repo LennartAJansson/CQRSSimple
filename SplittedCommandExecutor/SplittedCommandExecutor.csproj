@@ -10,10 +10,18 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
-  </ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Extensions.NATS\Microsoft.Extensions.NATS.csproj" />
+    <ProjectReference Include="..\CommandMediators\CommandMediators.csproj" />
+    <ProjectReference Include="..\QueryMediators\QueryMediators.csproj" />
     <ProjectReference Include="..\WeatherForecastsDb\WeatherForecastsDb.csproj" />
   </ItemGroup>
 </Project>
