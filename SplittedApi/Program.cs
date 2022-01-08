@@ -8,7 +8,7 @@ WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddCommandMediators(builder.Configuration);
-builder.Services.AddQueryMediators();
+builder.Services.AddQueryMediators(builder.Configuration);
 builder.Services.AddMappers();
 
 builder.Services.AddControllers();
