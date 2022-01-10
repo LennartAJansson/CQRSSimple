@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    public class WeatherForecast
+    public partial class WeatherForecast
     {
         public Guid WeatherForecastId { get; set; }
 

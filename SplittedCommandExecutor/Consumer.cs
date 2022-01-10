@@ -47,6 +47,7 @@
                     //TODO Take in consideration if the temperature is Celsius or Fahrenheit
                     context.WeatherForecasts.Add(forecast);
                     context.SaveChanges();
+                    operation.WeatherForecastId = forecast.WeatherForecastId;
                     operation.After = JsonSerializer.Serialize(forecast);
                     msg.Ack();
                     break;
@@ -56,6 +57,7 @@
                     operation.Before = JsonSerializer.Serialize(target);
                     WeatherForecast source = mapper.Map<WeatherForecast>(updateRequest);
                     //TODO Take in consideration if the temperature is Celsius or Fahrenheit
+                    target.CopyFrom(source);
                     context.WeatherForecasts.Update(target);
                     context.SaveChanges();
                     operation.After = JsonSerializer.Serialize(target);

@@ -60,11 +60,11 @@ namespace SplittedCommandExecutor
 
 
         private void MessageArrived(object? sender, MsgHandlerEventArgs args) =>
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(async () =>
             {
                 using (IServiceScope? scope = scopeFactory.CreateScope())
                 {
-                    scope.ServiceProvider.GetRequiredService<IConsumer<MsgHandlerEventArgs>>().Consume(args);
+                    await scope.ServiceProvider.GetRequiredService<IConsumer<MsgHandlerEventArgs>>().Consume(args);
                 }
             });
 

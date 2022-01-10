@@ -19,11 +19,16 @@
                 .ForMember(dest => dest.RequestData, opt => opt.MapFrom(src => src.RequestData))
                 .ForMember(dest => dest.Before, opt => opt.MapFrom(src => string.Empty))
                 .ForMember(dest => dest.After, opt => opt.MapFrom(src => string.Empty));
-            //CreateMap<CreateWeatherForecastCommand, WeatherForecast>();
+            CreateMap<CreateWeatherForecastCommand, WeatherForecast>()
+                .ForMember(dest => dest.WeatherForecastId, opt => opt.MapFrom(src => Guid.NewGuid()))
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date))
+                .ForMember(dest => dest.Celsius, opt => opt.MapFrom(src => src.IsCelsius ? src.Temperature : (src.Temperature - 32) * 0.5556m))
+                .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => src.Summary));
             CreateMap<UpdateWeatherForecastCommand, WeatherForecast>()
                 .ForMember(dest => dest.WeatherForecastId, opt => opt.MapFrom(src => src.WeatherForecastId))
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date))
-                .ForMember(dest => dest.Celsius, opt => opt.MapFrom(src => src.IsCelsius ? src.Temperature : (src.Temperature - 32) * 0.5556m));
+                .ForMember(dest => dest.Celsius, opt => opt.MapFrom(src => src.IsCelsius ? src.Temperature : (src.Temperature - 32) * 0.5556m))
+                .ForMember(dest => dest.Summary, opt => opt.MapFrom(src => src.Summary));
             //CreateMap<DeleteWeatherForecastCommand, WeatherForecast>();
         }
     }
