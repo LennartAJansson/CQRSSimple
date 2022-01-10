@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WeatherForecastsDb;
 
@@ -11,9 +12,10 @@ using WeatherForecastsDb;
 namespace WeatherForecastsDb.Migrations
 {
     [DbContext(typeof(WeatherForecastsContext))]
-    partial class WeatherForecastsContextModelSnapshot : ModelSnapshot
+    [Migration("20220110145633_DecimalTemp")]
+    partial class DecimalTemp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -6,9 +6,9 @@
 
         public DateTimeOffset Date { get; set; }
 
-        public int Celsius { get; set; }
+        public decimal Celsius { get; set; }
 
-        public int Fahrenheit => 32 + (int)(Celsius / 0.5556);//Calculated fields will not be included in table
+        public decimal Fahrenheit => 32 + Celsius / 0.5556m;//Calculated fields will not be included in table
 
         public string? Summary { get; set; }
 

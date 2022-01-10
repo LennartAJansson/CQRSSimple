@@ -19,9 +19,12 @@
                 .ForMember(dest => dest.RequestData, opt => opt.MapFrom(src => src.RequestData))
                 .ForMember(dest => dest.Before, opt => opt.MapFrom(src => string.Empty))
                 .ForMember(dest => dest.After, opt => opt.MapFrom(src => string.Empty));
-            CreateMap<CreateWeatherForecastCommand, WeatherForecast>();
-            CreateMap<UpdateWeatherForecastCommand, WeatherForecast>();
-            CreateMap<DeleteWeatherForecastCommand, WeatherForecast>();
+            //CreateMap<CreateWeatherForecastCommand, WeatherForecast>();
+            CreateMap<UpdateWeatherForecastCommand, WeatherForecast>()
+                .ForMember(dest => dest.WeatherForecastId, opt => opt.MapFrom(src => src.WeatherForecastId))
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date))
+                .ForMember(dest => dest.Celsius, opt => opt.MapFrom(src => src.IsCelsius ? src.Temperature : (src.Temperature - 32) * 0.5556m));
+            //CreateMap<DeleteWeatherForecastCommand, WeatherForecast>();
         }
     }
 }
