@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    public class Operation
+    public partial class Operation
     {
         public Guid OperationId { get; set; }
         public bool Ready { get; set; }
