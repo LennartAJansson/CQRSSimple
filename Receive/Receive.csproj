@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Receive-0D38569F-75C9-43DB-9D6F-D7CB1FCDB4DF</UserSecretsId>
-    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <!--<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>-->
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-SplittedCommandExecutor-1265A4A7-0E87-4486-BE62-A8F3E0AB1483</UserSecretsId>
-    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <!--<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>-->
   </PropertyGroup>
 
   <ItemGroup>

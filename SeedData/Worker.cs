@@ -14,7 +14,7 @@ internal class Worker : IWorker
         List<Guid> ids = new List<Guid>();
 
         DateTime StartDate = new DateTime(2021, 1, 1, 0, 0, 0);
-        DateTime StopDate = new DateTime(2021, 1, 31, 23, 1, 0);
+        DateTime StopDate = new DateTime(2021, 12, 31, 23, 1, 0);
         JsonSerializerOptions options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -22,8 +22,8 @@ internal class Worker : IWorker
 
         while (StartDate < StopDate)
         {
-            int temp = GetTemp(StartDate);
-            CreateWeatherForecastRequest request = new CreateWeatherForecastRequest(StartDate, temp, true, GetSummaries(temp));
+            decimal temp = GetTemp(StartDate);
+            CreateWeatherForecastCommand request = new CreateWeatherForecastCommand(StartDate, temp, GetSummaries(temp), true);
             Console.WriteLine(request);
 
             HttpResponseMessage? response = await client.PostAsync("/api/command/createweatherforecast",
@@ -43,16 +43,20 @@ internal class Worker : IWorker
     }
 
     private static readonly string[] Summaries =
-        { "Freezing", "Cold", "Mild", "Warm", "Hot" };
+        { "Freezing", "Cold", "Frosty", "Chilly", "Cool", "Mild", "Warm", "Hot", "Sweltering" };
 
-    private static string GetSummaries(int temp) =>
+    private static string GetSummaries(decimal temp) =>
         temp switch
         {
-            < 0 => Summaries[0],
-            < 5 => Summaries[1],
-            < 15 => Summaries[2],
-            < 25 => Summaries[3],
-            _ => Summaries[4]
+            < -10 => Summaries[0],//Freezing
+            < 0 => Summaries[1],//Cold
+            < 10 => Summaries[2],//Frosty
+            < 15 => Summaries[3],//Chilly
+            < 20 => Summaries[4],//Cool
+            < 25 => Summaries[5],//Mild
+            < 30 => Summaries[6],//Warm
+            < 35 => Summaries[7],//Hot
+            _ => Summaries[8]//Sweltering
         };
     private enum TimeBand
     {
@@ -72,26 +76,43 @@ internal class Worker : IWorker
             _ => TimeBand.Day
         };
 
-    private static int GetTemp(DateTime date) =>
+    private static decimal GetTemp(DateTime date) =>
         GetTimeBand(date) switch
         {
             TimeBand.Day => date.Month switch
             {
-                < 3 or > 10 => new Random().Next(-5, 5),
-                < 5 or > 8 => new Random().Next(5, 15),
-                _ => new Random().Next(15, 35)
+                < 2 or > 11 => new Random().NextDecimal(-10, 0),
+                < 3 or > 10 => new Random().NextDecimal(-5, 5),
+                < 5 or > 8 => new Random().NextDecimal(5, 15),
+                _ => new Random().NextDecimal(15, 35)
             },
             TimeBand.Hase => date.Month switch
             {
-                < 3 or > 10 => new Random().Next(-7, 3),
-                < 5 or > 8 => new Random().Next(-3, 13),
-                _ => new Random().Next(13, 33)
+                < 2 or > 11 => new Random().NextDecimal(-15, -5),
+                < 3 or > 10 => new Random().NextDecimal(-7, 3),
+                < 5 or > 8 => new Random().NextDecimal(-3, 13),
+                _ => new Random().NextDecimal(13, 33)
             },
             _ => date.Month switch
             {
-                < 3 or > 10 => new Random().Next(-10, 0),
-                < 5 or > 8 => new Random().Next(-5, 5),
-                _ => new Random().Next(5, 20)
+                < 2 or > 11 => new Random().NextDecimal(-20, -10),
+                < 3 or > 10 => new Random().NextDecimal(-10, 0),
+                < 5 or > 8 => new Random().NextDecimal(-5, 5),
+                _ => new Random().NextDecimal(5, 20)
             }
         };
+}
+public static class ExtensionMethods
+{
+    public static decimal NextDecimal(this Random rng)
+    {
+        double RandH, RandL;
+        do
+        {
+            RandH = rng.NextDouble();
+            RandL = rng.NextDouble();
+        } while ((RandH > 0.99999999999999d) || (RandL > 0.99999999999999d));
+        return (decimal)RandH + (decimal)RandL / 1E14m;
+    }
+    public static decimal NextDecimal(this Random rng, decimal minValue, decimal maxValue) => rng.NextDecimal() * (maxValue - minValue) + minValue;
 }

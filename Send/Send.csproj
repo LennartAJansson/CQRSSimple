@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Send-145D12FE-C07F-41F2-9386-3F8B732D9A75</UserSecretsId>
-    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <!--<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>-->
   </PropertyGroup>
 
   <ItemGroup>
