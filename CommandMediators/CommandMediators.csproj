@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mappers\Mappers.csproj" />
-    <ProjectReference Include="..\Microsoft.Extensions.NATS\Microsoft.Extensions.NATS.csproj" />
+    <ProjectReference Include="..\Nats.Extensions.DependencyInjection\Nats.Extensions.DependencyInjection.csproj" />
   </ItemGroup>
 </Project>

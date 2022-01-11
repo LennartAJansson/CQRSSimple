@@ -39,7 +39,7 @@
                 connection.Open();
 
                 IEnumerable<WeatherForecast> forecasts = await connection.QueryAsync<WeatherForecast>(
-                    @$"SELECT * FROM WeatherForecasts order by Date"
+                    @$"SELECT * FROM WeatherForecasts ORDER BY Date"
                 );
 
                 WeatherForecast? forecast = forecasts.FirstOrDefault();

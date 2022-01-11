@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Send-145D12FE-C07F-41F2-9386-3F8B732D9A75</UserSecretsId>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Extensions.NATS\Microsoft.Extensions.NATS.csproj" />
+    <ProjectReference Include="..\Nats.Extensions.DependencyInjection\Nats.Extensions.DependencyInjection.csproj" />
   </ItemGroup>
 </Project>

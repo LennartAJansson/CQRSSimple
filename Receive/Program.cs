@@ -1,4 +1,5 @@
-using Microsoft.Extensions.NATS;
+
+using NATS.Extensions.DependencyInjection;
 
 using Receive;
 

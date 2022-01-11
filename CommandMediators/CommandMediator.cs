@@ -8,7 +8,8 @@
 
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.NATS;
+
+    using NATS.Extensions.DependencyInjection;
 
     public static class CommandMediator
     {
@@ -22,7 +23,7 @@
                 options.Url = natsProducer.Url;
                 options.Verbose = true;
             });
-            services.AddMediatR(Assembly.GetAssembly(typeof(CommandMediator)));
+            services.AddMediatR(Assembly.GetAssembly(typeof(CommandMediator)) ?? throw new NullReferenceException());
             services.AddMappers();
             return services;
         }

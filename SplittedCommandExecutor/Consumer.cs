@@ -34,55 +34,90 @@
             Msg msg = args.Message;
 
             CreateOperationCommand? command = JsonSerializer.Deserialize<CreateOperationCommand>(msg.Data);
-            Operation operation = mapper.Map<Operation>(command);
-            context.Operations.Add(operation);
-            context.SaveChanges();
-
-            //Create Operation of message
-            switch (command.Action)
+            if (command != null)
             {
-                case "CreateWeatherForecastCommand":
-                    CreateWeatherForecastCommand? request = JsonSerializer.Deserialize<CreateWeatherForecastCommand>(command.RequestData);
-                    WeatherForecast forecast = mapper.Map<WeatherForecast>(request);
-                    //TODO Take in consideration if the temperature is Celsius or Fahrenheit
-                    context.WeatherForecasts.Add(forecast);
+                Operation operation = mapper.Map<Operation>(command);
+
+                if (context.Operations != null && context.WeatherForecasts != null)
+                {
+                    context.Operations.Add(operation);
                     context.SaveChanges();
-                    operation.WeatherForecastId = forecast.WeatherForecastId;
-                    operation.After = JsonSerializer.Serialize(forecast);
-                    msg.Ack();
-                    break;
-                case "UpdateWeatherForecastCommand":
-                    UpdateWeatherForecastCommand? updateRequest = JsonSerializer.Deserialize<UpdateWeatherForecastCommand>(command.RequestData);
-                    WeatherForecast? target = context.WeatherForecasts.Find(updateRequest.WeatherForecastId);
-                    operation.Before = JsonSerializer.Serialize(target);
-                    WeatherForecast source = mapper.Map<WeatherForecast>(updateRequest);
-                    //TODO Take in consideration if the temperature is Celsius or Fahrenheit
-                    target.CopyFrom(source);
-                    context.WeatherForecasts.Update(target);
+
+                    switch (command.Action)
+                    {
+                        case "CreateWeatherForecastCommand":
+                            CreateWeatherForecastCommand? createRequest = JsonSerializer.Deserialize<CreateWeatherForecastCommand>(command.RequestData);
+                            if (createRequest != null)
+                            {
+                                WeatherForecast createTarget = mapper.Map<WeatherForecast>(createRequest);
+                                createTarget.WeatherForecastId = operation.WeatherForecastId;
+                                if (createTarget != null)
+                                {
+                                    operation.Before = string.Empty;
+
+                                    context.WeatherForecasts.Add(createTarget);
+                                    context.SaveChanges();
+
+                                    operation.After = JsonSerializer.Serialize(createTarget);
+
+                                    msg.Ack();
+                                }
+                            }
+                            break;
+                        case "UpdateWeatherForecastCommand":
+                            UpdateWeatherForecastCommand? updateRequest = JsonSerializer.Deserialize<UpdateWeatherForecastCommand>(command.RequestData);
+                            if (updateRequest != null)
+                            {
+                                WeatherForecast? updateTarget = context.WeatherForecasts.Find(updateRequest.WeatherForecastId);
+                                if (updateTarget != null)
+                                {
+                                    operation.Before = JsonSerializer.Serialize(updateTarget);
+
+                                    WeatherForecast updateSource = mapper.Map<WeatherForecast>(updateRequest);
+                                    updateTarget.CopyFrom(updateSource);
+
+                                    context.WeatherForecasts.Update(updateTarget);
+                                    context.SaveChanges();
+
+                                    operation.After = JsonSerializer.Serialize(updateTarget);
+
+                                    msg.Ack();
+                                }
+                            }
+                            break;
+                        case "DeleteWeatherForecastCommand":
+                            DeleteWeatherForecastCommand? deleteRequest = JsonSerializer.Deserialize<DeleteWeatherForecastCommand>(command.RequestData);
+                            if (deleteRequest != null)
+                            {
+                                WeatherForecast? deleteTarget = context.WeatherForecasts.Find(deleteRequest.WeatherForecastId);
+                                if (deleteTarget != null)
+                                {
+                                    operation.Before = JsonSerializer.Serialize(deleteTarget);
+
+                                    context.WeatherForecasts.Remove(deleteTarget);
+                                    context.SaveChanges();
+
+                                    operation.After = string.Empty;
+
+                                    msg.Ack();
+                                }
+                            }
+                            break;
+                        default:
+                            logger.LogWarning("Action {action} unknown", command.Action);
+
+                            msg.Nak();
+                            break;
+                    }
+
+                    operation.Ready = true;
+                    context.Operations.Update(operation);
                     context.SaveChanges();
-                    operation.After = JsonSerializer.Serialize(target);
-                    msg.Ack();
-                    break;
-                case "DeleteWeatherForecastCommand":
-                    DeleteWeatherForecastCommand? deleteRequest = JsonSerializer.Deserialize<DeleteWeatherForecastCommand>(command.RequestData);
-                    WeatherForecast? deleteTarget = context.WeatherForecasts.Find(deleteRequest.WeatherForecastId);
-                    operation.Before = JsonSerializer.Serialize(deleteTarget);
-                    context.WeatherForecasts.Remove(deleteTarget);
-                    context.SaveChanges();
-                    msg.Ack();
-                    break;
-                default:
-                    logger.LogWarning("Action {action} unknown", command.Action);
-                    msg.Nak();
-                    break;
+                }
             }
 
-            operation.Ready = true;
-            context.Operations.Update(operation);
-            context.SaveChanges();
-
             logger.LogInformation("Received message {data} on subject {subject}, stream {stream}, seqno {seqno}.",
-                            Encoding.UTF8.GetString(msg.Data), msg.Subject, msg.MetaData.Stream, msg.MetaData.StreamSequence);
+                                Encoding.UTF8.GetString(msg.Data), msg.Subject, msg.MetaData.Stream, msg.MetaData.StreamSequence);
 
             return Task.CompletedTask;
         }

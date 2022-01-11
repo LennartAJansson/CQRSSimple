@@ -2,11 +2,11 @@ namespace Send
 {
     using System.Text;
 
-    using Microsoft.Extensions.NATS;
     using Microsoft.Extensions.Options;
 
     using NATS.Client;
     using NATS.Client.JetStream;
+    using NATS.Extensions.DependencyInjection;
 
     using NATSExamples;
 

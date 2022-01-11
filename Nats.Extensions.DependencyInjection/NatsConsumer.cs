@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Extensions.NATS
+﻿namespace NATS.Extensions.DependencyInjection
 {
     public class NatsConsumer
     {

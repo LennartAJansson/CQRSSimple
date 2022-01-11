@@ -13,7 +13,7 @@
     {
         public static IServiceCollection AddQueryMediators(this IServiceCollection services, IConfiguration configuration) =>
             services.Configure<ConnectionStrings>(options => configuration.GetSection("ConnectionStrings").Bind(options))
-                .AddMediatR(Assembly.GetAssembly(typeof(QueryMediator)))
+                .AddMediatR(Assembly.GetAssembly(typeof(QueryMediator)) ?? throw new NullReferenceException())
                 .AddMappers();
     }
 }

@@ -2,9 +2,9 @@
 using Mappers;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.NATS;
 
 using NATS.Client;
+using NATS.Extensions.DependencyInjection;
 
 using SplittedCommandExecutor;
 

@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherForecastsDb", "WeatherForecastsDb\WeatherForecastsDb.csproj", "{97D8DD91-760A-4BEA-AE4C-E873409B309E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.NATS", "Microsoft.Extensions.NATS\Microsoft.Extensions.NATS.csproj", "{29C4EA15-7F16-4272-BC2B-91B530A1EB9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nats.Extensions.DependencyInjection", "Nats.Extensions.DependencyInjection\Nats.Extensions.DependencyInjection.csproj", "{29C4EA15-7F16-4272-BC2B-91B530A1EB9C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueryMediators", "QueryMediators\QueryMediators.csproj", "{3671CCB4-B9F1-4518-A182-49502306AFB2}"
 EndProject
